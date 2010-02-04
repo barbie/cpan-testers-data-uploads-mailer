@@ -1,0 +1,13 @@
+bin/uploads-mailer.pl
+CHANGES
+lib/CPAN/Testers/Data/Uploads/Mailer.pm
+Makefile.PL
+MANIFEST
+META.yml
+README
+templates/mail-bad-uploads.eml
+t/01load.t
+t/90podtest.t
+t/91podcover.t
+t/94metatest.t
+t/95changes.t
