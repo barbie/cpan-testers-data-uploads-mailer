@@ -2,7 +2,7 @@
 use strict;
 $|++;
 
-my $VERSION = '0.01';
+my $VERSION = '0.02';
 
 #----------------------------------------------------------------------------
 
@@ -23,6 +23,7 @@ Reads the uploads log and generates the emails for bad uploads to authors.
 # -------------------------------------
 # Library Modules
 
+use lib qw(./lib);
 use CPAN::Testers::Data::Uploads::Mailer;
 
 # -------------------------------------

@@ -4,7 +4,7 @@ use warnings;
 use strict;
 $|++;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 #----------------------------------------------------------------------------
 
@@ -134,14 +134,14 @@ sub _send_mail {
         my $cmd = qq!| $HOW $addr!;
 
         if($self->{options}{debug}) {
-                _log("$DATE: NULL: $addr [$hash{subject}]");
+                $self->_log("$DATE: NULL: $addr [$hash{subject}]");
         } else {
             if(my $fh = IO::File->new($cmd)) {
                 print $fh $body;
                 $fh->close;
-                _log("$DATE: PASS: $addr [$hash{subject}]");
+                $self->_log("$DATE: PASS: $addr [$hash{subject}]");
             } else {
-                _log("$DATE: FAIL: $addr [$hash{subject}]");
+                $self->_log("$DATE: FAIL: $addr [$hash{subject}]");
             }
         }
     }
@@ -222,13 +222,13 @@ sub _init_options {
 
     $self->{options}{$_} ||= $default{$_}   for(qw(logfile source lastfile test debug));
 
-    unless(-f $self->{options}{log}) {
-        print "No cpanstats.log file [$self->{options}{log}] found\n\n";
+    unless(-f $self->{options}{source}) {
+        print "No uploads source log file [$self->{options}{source}] found\n\n";
         _help(1);
     }
 
-    mkpath(dirname($self->{options}{last}));
-    mkpath(dirname($self->{options}{out}));
+    mkpath(dirname($self->{options}{lastfile}));
+    mkpath(dirname($self->{options}{logfile}));
 }
 
 sub _help {
@@ -238,12 +238,12 @@ sub _help {
         print <<HERE;
 
 Usage: $0 \\
-        [--log=<file>] [--out=<file>] [--last=<file>] \\
+        [--logfile=<file>] [--source=<file>] [--lastfile=<file>] \\
         [--test] [--debug] [-h] [-V]
 
-  --log             log file from cpanstats-verify
-  --out             results output file
-  --last            last NNTP ID mailed out
+  --logfile         log file from cpanstats-verify
+  --source          results output file
+  --lastfile        last NNTP ID mailed out
   --test            send mails to admin only
   --debug           do not send mails
   -h                this help screen
@@ -297,9 +297,12 @@ be forthcoming, please feel free to (politely) remind me.
 
 =head1 SEE ALSO
 
-L<IO::File>
+L<CPAN::Testers::Data::Uploads>
 
-F<http://stats.cpantesters.org/>
+F<http://www.cpantesters.org/> (Reports),
+F<http://stats.cpantesters.org/> (Statistics),
+F<http://wiki.cpantesters.org/> (Wiki),
+F<http://devel.cpantesters.org/> (Development)
 
 =head1 AUTHOR
 

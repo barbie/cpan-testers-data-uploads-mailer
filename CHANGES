@@ -1,4 +1,8 @@
 Revision history for Perl distribution CPAN-Testers-Data-Uploads-Mailer
 
+0.02	current
+	- documentatin updates.
+	- fixed repository and bugtracker links in META.yml.
+
 0.01	29/01/2010
 	- initial release

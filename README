@@ -1,8 +1,62 @@
+CPAN::Testers::Data::Uploads::Mailer(3)
+
+
+
 NAME
-    CPAN-Testers-WWW-Uploads-Mailer - Mailer for bad uploads
+       CPAN::Testers::Data::Uploads::Mailer - Verify CPAN uploads and mails
+       reports
+
+SYNOPSIS
+           my $mailer = CPAN::Testers::Data::Uploads::Mailer->new();
+           $mailer->process();
+
+DESCRIPTION
+       Reads the uploads log, then generates and emails the bad uploads report
+       to the appropriate authors.
+
+INTERFACE
+   The Constructor
+       ·   new
+
+           Instatiates the CPAN::Testers::Data::Uploads::Mailer object.
+
+             my $obj = CPAN::Testers::Data::Uploads::Mailer->new();
+             $obj->process();
+
+   Public Methods
+       ·   process
+
+           Based on accessor settings will run the appropriate methods for the
+           current execution.
+
+BUGS, PATCHES & FIXES
+       There are no known bugs at the time of this release. However, if you
+       spot a bug or are experiencing difficulties, that is not explained
+       within the POD documentation, please send an email to barbie@cpan.org.
+       However, it would help greatly if you are able to pinpoint problems or
+       even supply a patch.
+
+       Fixes are dependant upon their severity and my availablity. Should a
+       fix not be forthcoming, please feel free to (politely) remind me.
+
+SEE ALSO
+       CPAN::Testers::Data::Uploads
+
+       http://www.cpantesters.org/	(Reports), 
+       http://stats.cpantesters.org/	(Statistics), 
+       http://wiki.cpantesters.org/	(Wiki),
+       http://devel.cpantesters.org/	(Development)
 
 AUTHOR
-    Barbie       <barbie@cpan.org>   (C) 2010
+         Barbie, <barbie@cpan.org>
+         for Miss Barbell Productions <http://www.missbarbell.co.uk>.
 
-LICENSE
-    This code is distributed under the same license as Perl.
+COPYRIGHT AND LICENSE
+         Copyright (C) 2010 Barbie for Miss Barbell Productions.
+
+         This module is free software; you can redistribute it and/or
+         modify it under the same terms as Perl itself.
+
+
+
+perl v5.10.0                      2010-CPAN::Testers::Data::Uploads::Mailer(3)
