@@ -65,10 +65,13 @@ Date: DATE
 
 sub new {
     my $class = shift;
+    my %opts  = @_;
 
     my $self = {};
     bless $self, $class;
 
+    $self->{options} = {};
+    $self->{default}{$_} = $self->_defined_or($opts{$_}, $default{$_})  for(keys %default);
     $self->_init_options(@_);
     return $self;
 }
@@ -88,11 +91,12 @@ sub process {
         next    unless($id && $id > $lastid);
 
         next    unless(defined $cpan);
-        next    unless($dist =~ /\.(zip|tar|pm|gz)/);   # only attempts caught for now
-        next    if($dist =~ /\.(asc|pdf|ppm|patch)/);   # docs and patches, etc. are fine
+        next    if($dist =~ /\.(?:(?:tar\.|t)(?:gz|bz2)|zip)$/);        # valid archives
+        next    if($dist =~ /\.(asc|pdf|ppm|patch)/);                   # docs and patches, etc. are fine
+        next    unless($dist =~ /\b(rar|tgs|tbz|zip|tar|pm|gz|bz2)/);   # only attempts caught for now
 
         $self->{mail}{authors}{$cpan.'@cpan.org'} = 1;
-        $self->{mail}{uploads} .= "$path\n";
+        $self->{mail}{uploads} .= "$id,$path\n";
 
         $last_id = $id;
     }
@@ -135,6 +139,7 @@ sub _send_mail {
 
         if($self->{options}{debug}) {
                 $self->_log("$DATE: NULL: $addr [$hash{subject}]");
+                $self->_log("$body");
         } else {
             if(my $fh = IO::File->new($cmd)) {
                 print $fh $body;
@@ -183,7 +188,7 @@ sub _last_id {
 
     overwrite_file( $self->{options}{lastfile}, 0 ) unless -f $self->{options}{lastfile};
 
-    if ($id) {
+    if (defined $id) {
         overwrite_file( $self->{options}{lastfile}, $id );
     } else {
         $id = read_file($self->{options}{lastfile});
@@ -203,16 +208,25 @@ sub _log {
     $fh->close;
 }
 
+sub _defined_or {
+    my $self = shift;
+    while(@_) {
+        my $value = shift;
+        return $value   if(defined $value);
+    }
+
+    return;
+}
+
 sub _init_options {
     my $self = shift;
-    $self->{options} = {};
 
     GetOptions( $self->{options},
         'source|s=s',
         'logfile=s',
         'lastfile=s',
-        'test|t',
-        'debug|d',
+        'test|t!',
+        'debug|d!',
         'help|h',
         'version|v'
     );
@@ -220,7 +234,7 @@ sub _init_options {
     _help(1) if($self->{options}{help});
     _help(0) if($self->{options}{version});
 
-    $self->{options}{$_} ||= $default{$_}   for(qw(logfile source lastfile test debug));
+    $self->{options}{$_} = $self->_defined_or($self->{options}{$_}, $self->{default}{$_})  for(keys %default);
 
     unless(-f $self->{options}{source}) {
         print "No uploads source log file [$self->{options}{source}] found\n\n";
