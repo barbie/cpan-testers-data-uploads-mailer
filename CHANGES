@@ -6,6 +6,9 @@ Revision history for Perl distribution CPAN-Testers-Data-Uploads-Mailer
 	- refined parsing of command line and argument options.
 	- refined filters for bad uploads.
 	- added more tests & samples.
+	- reworked mail template to include headers.
+	- template variables reworked in code.
+	- include other failed parses for admins only.
 
 0.01	29/01/2010
 	- initial release

@@ -42,6 +42,7 @@ use Time::Piece;
 
 # the following will have the emails mailed to them too
 my @ADMINS = ('barbie@missbarbell.co.uk');
+my %ADMINS = map {$_ => 1} @ADMINS;
 
 my %default = (
     source      => 'logs/uploads.log',
@@ -82,6 +83,8 @@ sub process {
     my $lastid  = $self->_last_id();
     my $last_id = $lastid;
 
+    $self->{mail}{layout}  = 'mail-bad-uploads.eml';
+
     my $fh = IO::File->new($source) or die "Cannot open file [$source]: $!";
     while(<$fh>) {
         chomp;
@@ -89,24 +92,24 @@ sub process {
         #... [1281307] subject=CPAN Upload: A/AP/APLA/update_db_schema.pl
         my ($id,$path,$cpan,$dist) = m!\.\.\. \[(\d+)\] subject=CPAN Upload: (\w/\w{2}/(\w+)/(.*))!;
         next    unless($id && $id > $lastid);
+        $last_id = $id;
 
         next    unless(defined $cpan);
-        next    if($dist =~ /\.(?:(?:tar\.|t)(?:gz|bz2)|zip)$/);        # valid archives
-        next    if($dist =~ /\.(asc|pdf|ppm|patch)/);                   # docs and patches, etc. are fine
-        next    unless($dist =~ /\b(rar|tgs|tbz|zip|tar|pm|gz|bz2)/);   # only attempts caught for now
+        next    if($dist =~ /\.(?:(?:tar\.|t)(?:gz|bz2)|zip)$/i);   # valid archives
+        next    if($dist =~ /\.(pl|sh)/i);                          # ignore scripts ...
+        next    if($dist =~ /\.(gif|png|jpg)/i);                    # ... images ...
+                                                                    # ... docs and patches, etc.
+        next    if($dist =~ /\.(asc|pdf|ppm|patch|readme|meta|yml|pod|txt|changelog)/i);
 
+        if($dist !~ /\b(rar|tgs|tbz|zip|tar|pm|gz|bz2|tz)$/i) {     # only attempts caught for now
+            $self->{mail}{others} .= "$id,$path\n";
+            next;
+        }
         $self->{mail}{authors}{$cpan.'@cpan.org'} = 1;
         $self->{mail}{uploads} .= "$id,$path\n";
-
-        $last_id = $id;
     }
 
-    $self->_send_mail(
-        authors => $self->{mail}{authors},
-        subject => 'Non-Standard Formatted CPAN Uploads',
-        layout  => 'mail-bad-uploads.eml',
-        reports => $self->{mail}{uploads}
-    );
+    $self->_send_mail();
 
     $self->_last_id($last_id);
 }
@@ -116,48 +119,48 @@ sub process {
 
 sub _send_mail {
     my $self = shift;
-    my %hash = @_;
 
-    return  unless(defined $hash{authors} && keys %{$hash{authors}});
+    return  unless(defined $self->{mail}{authors} && keys %{$self->{mail}{authors}});
 
     my $DATE = _emaildate();
     $DATE =~ s/\s+$//;
 
-    my $BODY = $HEAD . _create_mail($hash{layout},$hash{reports});
+    my %tvars = (
+        date    => $DATE,
+        uploads => $self->{mail}{uploads},
+    );
 
-    my @recipients;
-    push @recipients, (keys %{$hash{authors}}) unless($self->{options}{test});
+    my   @recipients;
+    push @recipients, (keys %{$self->{mail}{authors}}) unless($self->{options}{test});
     push @recipients, @ADMINS;
 
     for my $addr (@recipients) {
-        my $body = $BODY;
-        $body =~ s/EMAIL/$addr/g;
-        $body =~ s/DATE/$DATE/g;
-        $body =~ s/SUBJECT/$hash{subject}/g;
+        $tvars{email}  = $addr;
+        $tvars{others} = $ADMINS{$addr} ? $self->{mail}{others}||'' : '';
+
+        my $body = _create_mail($self->{mail}{layout},\%tvars);
 
         my $cmd = qq!| $HOW $addr!;
 
         if($self->{options}{debug}) {
-                $self->_log("$DATE: NULL: $addr [$hash{subject}]");
+                $self->_log("$DATE: NULL: $addr");
                 $self->_log("$body");
         } else {
             if(my $fh = IO::File->new($cmd)) {
                 print $fh $body;
                 $fh->close;
-                $self->_log("$DATE: PASS: $addr [$hash{subject}]");
+                $self->_log("$DATE: PASS: $addr");
             } else {
-                $self->_log("$DATE: FAIL: $addr [$hash{subject}]");
+                $self->_log("$DATE: FAIL: $addr");
             }
         }
     }
 }
 
 sub _create_mail {
-    my $layout  = shift;
-    my $content = shift;
+    my $layout = shift;
+    my $tvars  = shift;
     my $body;
-
-    my %tvars = ( content => $content );
 
     my %config = (                              # provide config info
         RELATIVE        => 1,
@@ -169,7 +172,7 @@ sub _create_mail {
     );
 
     my $parser = Template->new(\%config);       # initialise parser
-    $parser->process($layout,\%tvars,\$body)    # parse the template
+    $parser->process($layout,$tvars,\$body)     # parse the template
         or die $parser->error();
 
     return $body;
