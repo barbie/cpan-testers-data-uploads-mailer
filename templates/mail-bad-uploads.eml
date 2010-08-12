@@ -1,7 +1,9 @@
-To: [% email %]
 From: Barbie <barbie@cpantesters.org>
-Subject: Non-Standard Formatted CPAN Uploads
+To: [% email %]
+
 Date: [% date %]
+
+Subject: Non-Standard Formatted CPAN Uploads
 
 Dear CPAN Author,
 

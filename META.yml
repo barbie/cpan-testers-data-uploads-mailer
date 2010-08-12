@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                   CPAN-Testers-Data-Uploads-Mailer
-version:                0.02
+version:                0.03
 abstract:               Verify CPAN uploads and mails reports
 author:
   - Barbie <barbie@cpan.org>
@@ -23,7 +23,7 @@ requires:
 provides:
   CPAN::Testers::Data::Uploads::Mailer:
     file:     lib/CPAN/Testers/Data/Uploads/Mailer.pm
-    version:  0.02
+    version:  0.03
 
 no_index:
   directory:

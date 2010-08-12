@@ -1,14 +1,18 @@
 Revision history for Perl distribution CPAN-Testers-Data-Uploads-Mailer
 
+0.03	12/08/2010
+        - added META.json to the package files.
+        - fix to headers in mail template.
+
 0.02	06/02/2010
-	- documentation updates.
-	- fixed repository and bugtracker links in META.yml.
-	- refined parsing of command line and argument options.
-	- refined filters for bad uploads.
-	- added more tests & samples.
-	- reworked mail template to include headers.
-	- template variables reworked in code.
-	- include other failed parses for admins only.
+        - documentation updates.
+        - fixed repository and bugtracker links in META.yml.
+        - refined parsing of command line and argument options.
+        - refined filters for bad uploads.
+        - added more tests & samples.
+        - reworked mail template to include headers.
+        - template variables reworked in code.
+        - include other failed parses for admins only.
 
 0.01	29/01/2010
-	- initial release
+        - initial release
