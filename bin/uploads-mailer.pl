@@ -2,7 +2,7 @@
 use strict;
 $|++;
 
-my $VERSION = '0.02';
+my $VERSION = '0.04';
 
 #----------------------------------------------------------------------------
 
@@ -34,8 +34,6 @@ $mailer->process();
 
 __END__
 
-=back
-
 =head1 BUGS, PATCHES & FIXES
 
 There are no known bugs at the time of this release. However, if you spot a
@@ -43,7 +41,7 @@ bug or are experiencing difficulties, that is not explained within the POD
 documentation, please send an email to barbie@cpan.org. However, it would help
 greatly if you are able to pinpoint problems or even supply a patch.
 
-Fixes are dependant upon their severity and my availablity. Should a fix not
+Fixes are dependent upon their severity and my availability. Should a fix not
 be forthcoming, please feel free to (politely) remind me.
 
 =head1 SEE ALSO
@@ -57,7 +55,7 @@ F<http://www.cpantesters.org/>
 
 =head1 COPYRIGHT AND LICENSE
 
-  Copyright (C) 2010 Barbie for Miss Barbell Productions.
+  Copyright (C) 2010-2012 Barbie for Miss Barbell Productions.
 
   This module is free software; you can redistribute it and/or
   modify it under the same terms as Perl itself.

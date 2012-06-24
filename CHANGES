@@ -1,5 +1,12 @@
 Revision history for Perl distribution CPAN-Testers-Data-Uploads-Mailer
 
+0.04	24/06/2012
+	- spelling fixes. (thanks to Florian Schlichting & Gregor Herrmann).
+	- META tests no longer require specific versions.
+	- added minimum perl version (5.006).
+        - reworked Makefile.PL for clarity.
+	- slimmed down sample file.
+
 0.03	12/08/2010
         - added META.json to the package files.
         - fix to headers in mail template.

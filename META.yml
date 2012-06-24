@@ -1,29 +1,38 @@
 --- #YAML:1.0
 name:                   CPAN-Testers-Data-Uploads-Mailer
-version:                0.03
+version:                0.04
 abstract:               Verify CPAN uploads and mails reports
 author:
   - Barbie <barbie@cpan.org>
 
-license:                perl
+license:                artistic_2
 distribution_type:      module
 installdirs:            site
 
 requires:
-  Email::Simple:        0
-  File::Basename:       0
-  File::Path:           0
-  File::Slurp:          0
-  Getopt::ArgvFile:     0
-  Getopt::Long:         0
-  IO::File:             0
-  Template:             0
-  Time::Piece:          0
+  perl:                   5.006
+  Email::Simple:          0
+  File::Basename:         0
+  File::Path:             0
+  File::Slurp:            0
+  Getopt::ArgvFile:       0
+  Getopt::Long:           0
+  IO::File:               0
+  Template:               0
+  Time::Piece:            0
+recommends:
+  Test::Pod:              1.00
+  Test::Pod::Coverage:    0.08
+  Test::CPAN::Meta:       0
+  Test::CPAN::Meta::JSON: 0
+build_requires:
+  IO::File:               0
+  Test::More:             0.70
 
 provides:
   CPAN::Testers::Data::Uploads::Mailer:
     file:     lib/CPAN/Testers/Data/Uploads/Mailer.pm
-    version:  0.03
+    version:  0.04
 
 no_index:
   directory:
