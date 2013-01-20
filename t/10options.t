@@ -1,11 +1,11 @@
 #!/usr/bin/perl -w
 use strict;
 
-use IO::File;
-use Test::More tests => 21;
 use CPAN::Testers::Data::Uploads::Mailer;
 use File::Basename;
 use File::Path;
+use IO::File;
+use Test::More tests => 21;
 
 my %default = (
     source      => 'logs/uploads.log',

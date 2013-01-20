@@ -31,6 +31,9 @@ This module requires these modules:
 
 For testing the module requires these modules:
 
+  File::Basename
+  File::Path
+  File::Slurp
   IO::File
   Test::More
 

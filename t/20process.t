@@ -1,11 +1,11 @@
 #!/usr/bin/perl -w
 use strict;
 
-use IO::File;
-use Test::More tests => 7;
 use CPAN::Testers::Data::Uploads::Mailer;
 use File::Slurp;
 use File::Path;
+use IO::File;
+use Test::More tests => 7;
 
 my %params = (
     source      => 't/samples/uploads.log',
