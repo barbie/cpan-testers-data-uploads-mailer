@@ -63,6 +63,16 @@ Date: DATE
 
 ';
 
+my $archive = qr/\b(rar|tgs|tbz|zip|tar|pm|gz|bz2|tz)$/i;   # known archive formats posted
+my $accept  = qr/\.(?:(?:tar\.|t)(?:gz|bz2)|zip)$/i;        # valid archives
+my $ignore  = qr/
+    \.(pl|sh)                           |   # ignore scripts
+    \.(gif|png|jpg)                     |   # ... images
+    \.(readme|meta|yml|json|changelog)  |   # ... package files
+    \.(asc|pdf|ppm|patch|pod|txt)       $   # ... docs and patches
+/xi;
+
+
 #----------------------------------------------------------------------------
 # The Application Programming Interface
 
@@ -93,14 +103,10 @@ sub process {
         next    unless($id && $id > $lastid);
         $last_id = $id;
 
-        next    unless(defined $cpan);
-        next    if($dist =~ /\.(?:(?:tar\.|t)(?:gz|bz2)|zip)$/i);   # valid archives
-        next    if($dist =~ /\.(pl|sh)/i);                          # ignore scripts ...
-        next    if($dist =~ /\.(gif|png|jpg)/i);                    # ... images ...
-                                                                    # ... docs and patches, etc.
-        next    if($dist =~ /\.(asc|pdf|ppm|patch|readme|meta|yml|pod|txt|changelog)/i);
+        next    unless(defined $cpan);          # must have a PAUSE id
+        next    if($dist =~ /$accept|$ignore/); # accepted valid archives or ignored extensions
 
-        if($dist !~ /\b(rar|tgs|tbz|zip|tar|pm|gz|bz2|tz)$/i) {     # only attempts caught for now
+        if($dist !~ /$archive/) {               # not a known archive format
             $self->{mail}{others} .= "$id,$path\n";
             next;
         }

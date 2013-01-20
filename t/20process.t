@@ -17,6 +17,9 @@ my %params = (
 
 rmtree('t/test');
 
+mkpath('t/test');
+write_file($params{lastfile},39941);
+
 {
     my $mailer;
     eval { 
