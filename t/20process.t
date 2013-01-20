@@ -50,4 +50,3 @@ rmtree('t/test');
     my $text = read_file($params{logfile});
     like($text,qr/barbie\@missbarbell\.co\.uk/,'.. logfile updated');
 }
-

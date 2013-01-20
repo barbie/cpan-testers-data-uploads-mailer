@@ -21,10 +21,10 @@ requires:
   Template:               0
   Time::Piece:            0
 recommends:
-  Test::Pod:              1.00
-  Test::Pod::Coverage:    0.08
   Test::CPAN::Meta:       0
   Test::CPAN::Meta::JSON: 0
+  Test::Pod:              1.00
+  Test::Pod::Coverage:    0.08
 build_requires:
   IO::File:               0
   Test::More:             0.70
