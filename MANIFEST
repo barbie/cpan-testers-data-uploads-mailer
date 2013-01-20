@@ -1,6 +1,7 @@
 bin/uploads-mailer.pl
 Changes
 lib/CPAN/Testers/Data/Uploads/Mailer.pm
+LICENSE
 Makefile.PL
 MANIFEST
 META.yml
