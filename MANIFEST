@@ -1,5 +1,5 @@
 bin/uploads-mailer.pl
-CHANGES
+Changes
 lib/CPAN/Testers/Data/Uploads/Mailer.pm
 Makefile.PL
 MANIFEST
