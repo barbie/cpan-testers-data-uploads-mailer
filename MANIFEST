@@ -11,6 +11,7 @@ templates/mail-bad-uploads.eml
 t/01load.t
 t/10options.t
 t/20process.t
+t/22help.t
 t/90podtest.t
 t/91podcover.t
 t/94metatest.t

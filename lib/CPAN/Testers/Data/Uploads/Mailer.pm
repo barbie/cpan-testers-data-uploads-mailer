@@ -49,7 +49,9 @@ my %default = (
     lastfile    => 'logs/uploads-mailer.txt',
     logfile     => 'logs/uploads-mailer.log',
     debug       => 0,   # if set to 1 will not send mails
-    test        => 1    # if set to 1 will only send to @ADMINS
+    test        => 1,   # if set to 1 will only send to @ADMINS
+    help        => 0,
+    version     => 0
 );
 
 #my $HOW  = 'blah';
@@ -66,13 +68,10 @@ Date: DATE
 
 sub new {
     my $class = shift;
-    my %opts  = @_;
 
     my $self = {};
     bless $self, $class;
 
-    $self->{options} = {};
-    $self->{default}{$_} = $self->_defined_or($opts{$_}, $default{$_})  for(keys %default);
     $self->_init_options(@_);
     return $self;
 }
@@ -223,8 +222,10 @@ sub _defined_or {
 
 sub _init_options {
     my $self = shift;
+    my %opts  = @_;
 
-    GetOptions( $self->{options},
+    my %options;
+    GetOptions( \%options,
         'source|s=s',
         'logfile=s',
         'lastfile=s',
@@ -234,10 +235,11 @@ sub _init_options {
         'version|v'
     );
 
+    $self->{options} = ();
+    $self->{options}{$_} = $self->_defined_or($options{$_}, $opts{$_}, $default{$_})  for(keys %default);
+
     _help(1) if($self->{options}{help});
     _help(0) if($self->{options}{version});
-
-    $self->{options}{$_} = $self->_defined_or($self->{options}{$_}, $self->{default}{$_})  for(keys %default);
 
     unless(-f $self->{options}{source}) {
         print "No uploads source log file [$self->{options}{source}] found\n\n";
@@ -256,7 +258,7 @@ sub _help {
 
 Usage: $0 \\
         [--logfile=<file>] [--source=<file>] [--lastfile=<file>] \\
-        [--test] [--debug] [-h] [-V]
+        [--test] [--debug] [-h] [-v]
 
   --logfile         log file from cpanstats-verify
   --source          results output file
@@ -264,7 +266,7 @@ Usage: $0 \\
   --test            send mails to admin only
   --debug           do not send mails
   -h                this help screen
-  -V                program version
+  -v                program version
 
 HERE
 

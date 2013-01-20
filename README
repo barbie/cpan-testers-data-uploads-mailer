@@ -36,6 +36,7 @@ For testing the module requires these modules:
   File::Slurp
   IO::File
   Test::More
+  Test::Trap
 
 For optional testing the module would like these modules:
 

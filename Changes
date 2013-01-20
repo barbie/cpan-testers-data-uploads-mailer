@@ -4,6 +4,7 @@ Revision history for Perl distribution CPAN-Testers-Data-Uploads-Mailer
         - change file dates changed to meet W3CDTF standards.
         - added LICENSE file.
         - test suite updated.
+        - added test script for help().
 
 0.04    2012-06-24
         - spelling fixes. (thanks to Florian Schlichting & Gregor Herrmann).
