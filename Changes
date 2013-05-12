@@ -1,5 +1,6 @@
 Revision history for Perl distribution CPAN-Testers-Data-Uploads-Mailer
 
+0.05    2013-05-12
         - CHANGES => Changes.
         - change file dates changed to meet W3CDTF standards.
         - added LICENSE file.
