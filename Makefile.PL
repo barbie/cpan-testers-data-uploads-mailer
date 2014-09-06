@@ -8,7 +8,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     AUTHOR              => 'Barbie <barbie@cpan.org>',
-    NAME                => 'CPAN-Testers-Data-Uploads-Mailer',
+    NAME                => 'CPAN::Testers::Data::Uploads::Mailer',
     VERSION_FROM        => 'lib/CPAN/Testers/Data/Uploads/Mailer.pm',
     ABSTRACT            => 'Verify CPAN uploads and mails reports',
     NO_META             => 1,
