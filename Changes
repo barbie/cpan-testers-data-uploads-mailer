@@ -1,6 +1,7 @@
 Revision history for CPAN-Testers-Data-Uploads-Mailer
 =====================================================
 
+0.06    2014-09-15
         - fixed license fields in META.json to be lists.
         - updated resources links in META.yml.
         - extended META testing.
